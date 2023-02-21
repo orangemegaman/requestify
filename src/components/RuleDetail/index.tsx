@@ -1,0 +1,58 @@
+import React, { useEffect, useState } from 'react';
+import {
+	FormItem,
+	Input,
+	Group,
+	PanelHeader,
+	SubnavigationBar,
+	SubnavigationButton,
+	PanelHeaderBack,
+	Div,
+	Switch,
+	Cell,
+	List,
+	CellButton,
+} from '@vkontakte/vkui';
+import {
+	Icon24DoneOutline,
+	Icon24ArrowDownOutline,
+	Icon24ArrowUpOutline,
+	Icon24DeleteOutlineAndroid,
+} from '@vkontakte/icons';
+
+import { uuid } from '../../util/helpers';
+import { IDetail, URLType } from '../../interfaces';
+
+interface IRuleDetailProps extends Omit<IDetail, 'id'> {
+	onChange: (value: string, name: URLType, index: number) => void;
+	index: number;
+}
+
+const RuleDetail = ({ requestURL, destinationURL, useWholeWordMatch, index, onChange }: IRuleDetailProps) => {
+	return (
+		<Group>
+			<div className="add-rule__form">
+				<div className="add-rule__inputs">
+					<FormItem top="request url">
+						<Input type="text" value={requestURL} onChange={(e) => onChange(e.target.value, 'requestURL', index)} />
+					</FormItem>
+					<FormItem top="destination url">
+						<Input
+							type="text"
+							value={destinationURL}
+							onChange={(e) => onChange(e.target.value, 'destinationURL', index)}
+						/>
+					</FormItem>
+				</div>
+				<Div className="add-rule__preferences">
+					<List>
+						<Cell after={<Switch />}>Use RegExp</Cell>
+						<CellButton before={<Icon24DeleteOutlineAndroid />}>Delete</CellButton>
+					</List>
+				</Div>
+			</div>
+		</Group>
+	);
+};
+
+export default RuleDetail;
