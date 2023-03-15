@@ -1,5 +1,5 @@
 /* eslint-disable no-bitwise */
-import STORAGE_NAME from './constants';
+import {STORAGE_NAME} from './constants';
 import { IRule, IData } from '../interfaces';
 
 // const parseJSON = (str: string | null) => {
