@@ -1,12 +1,12 @@
-.add-rule__form {
+.rule__form {
 	display: flex;
 }
 
-.add-rule__inputs {
+.rule__inputs {
 	flex: 1;
 }
 
-.add-rule__preferences {
+.rule__preferences {
 	display: flex;
 	align-items: center;
 	border-left: 1px solid var(--separator_common);

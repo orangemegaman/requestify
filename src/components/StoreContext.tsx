@@ -9,23 +9,23 @@ const initContext = {
 type PropTypes<T> = T extends { [key: string]: infer U } ? U : never;
 type Action = ReturnType<PropTypes<typeof actions>>;
 
-
 type StoreContextType = {
     store: IData;
     dispatch: React.Dispatch<Action>;
 };
 
-
 export const actions = {
-    addRule: (rule: IRule) => ({ type: 'ADD_RULE', payload: { rule } } as const),
-    updateRule: (rule: IRule) => ({ type: 'UPDATE_RULE', payload: { rule } } as const),
-    removeRule: (id: string) => ({ type: 'REMOVE_RULE', payload: { id }} as const),
-    clearAll: () => ({ type: 'CLEAR_ALL_RULES'} as const),
+    addRule: (rule: IRule) => ({ type: 'RULE', payload: { rule } } as const),
+    updateRule: (rule: IRule) =>
+        ({ type: 'UPDATE_RULE', payload: { rule } } as const),
+    removeRule: (id: string) =>
+        ({ type: 'REMOVE_RULE', payload: { id } } as const),
+    clearAll: () => ({ type: 'CLEAR_ALL_RULES' } as const),
 };
 
 export const reducer = (state: IData, action: Action) => {
     switch (action.type) {
-        case 'ADD_RULE':
+        case 'RULE':
             return { ...state, rules: [...state.rules, action.payload.rule] };
         case 'UPDATE_RULE':
             const newRules = [...state.rules];

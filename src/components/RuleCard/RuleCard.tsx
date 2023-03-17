@@ -15,13 +15,17 @@ import {
 import './style.css';
 import { actions, StoreContext } from '../StoreContext';
 import { IRule } from '../../interfaces';
+import { NavigationContext, PanelIDs } from '../NavigationContext';
 
-const CardComponent = (rule: IRule) => {
+export const RuleCard = (rule: IRule) => {
     const { dispatch } = useContext(StoreContext);
+    const { setActivePanel } = useContext(NavigationContext);
     const { id, isActive } = rule;
+
     const handleToggleClick = () => {
         dispatch(actions.updateRule({ ...rule, isActive: !rule.isActive }));
     };
+
     return (
         <Card mode="outline">
             <Div>
@@ -41,7 +45,7 @@ const CardComponent = (rule: IRule) => {
                 </div>
                 <SimpleCell
                     className="card__action"
-                    onClick={() => {}}
+                    onClick={() => setActivePanel(PanelIDs.RULE, {rule})}
                     expandable
                     before={<Icon28EditOutline />}
                 >
@@ -62,4 +66,3 @@ const CardComponent = (rule: IRule) => {
         </Card>
     );
 };
-export default CardComponent;

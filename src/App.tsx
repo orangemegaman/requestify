@@ -8,7 +8,7 @@ import {
 import { useContext, useEffect, useState } from 'react';
 import { getData } from './util/helpers';
 import { IRule } from './interfaces';
-import AddRulePanel from './panels/AddRulePanel';
+import RulePanel from './panels/RulePanel';
 import MainPanel from './panels/MainPanel';
 import './app.css';
 import '@vkontakte/vkui/dist/vkui.css';
@@ -37,12 +37,12 @@ export const App = () => {
             modal={<Modal />}
         >
             <SplitCol animate={false} spaced={isDesktop}>
-                <View activePanel={activePanel}>
+                <View activePanel={activePanel.panelId}>
                     <Panel id={PanelIDs.MAIN}>
                         <MainPanel />
                     </Panel>
-                    <Panel id={PanelIDs.STATIC_MAPPER}>
-                        <AddRulePanel />
+                    <Panel id={PanelIDs.RULE}>
+                        <RulePanel {...activePanel.panelProps}/>
                     </Panel>
                 </View>
             </SplitCol>

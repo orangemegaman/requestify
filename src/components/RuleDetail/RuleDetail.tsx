@@ -22,17 +22,19 @@ import {
 
 import { uuid } from '../../util/helpers';
 import { IDetail, URLType } from '../../interfaces';
+import './RuleDEtail.css';
+
 
 interface IRuleDetailProps extends Omit<IDetail, 'id'> {
 	onChange: (value: string, name: URLType, index: number) => void;
 	index: number;
 }
 
-const RuleDetail = ({ requestURL, destinationURL, useWholeWordMatch, index, onChange }: IRuleDetailProps) => {
+export const RuleDetail = ({ requestURL, destinationURL, useWholeWordMatch, index, onChange }: IRuleDetailProps) => {
 	return (
 		<Group>
-			<div className="add-rule__form">
-				<div className="add-rule__inputs">
+			<div className="rule__form">
+				<div className="rule__inputs">
 					<FormItem top="request url">
 						<Input type="text" value={requestURL} onChange={(e) => onChange(e.target.value, 'requestURL', index)} />
 					</FormItem>
@@ -44,7 +46,7 @@ const RuleDetail = ({ requestURL, destinationURL, useWholeWordMatch, index, onCh
 						/>
 					</FormItem>
 				</div>
-				<Div className="add-rule__preferences">
+				<Div className="rule__preferences">
 					<List>
 						<Cell after={<Switch />}>Use RegExp</Cell>
 						<CellButton before={<Icon24DeleteOutlineAndroid />}>Delete</CellButton>
@@ -54,5 +56,3 @@ const RuleDetail = ({ requestURL, destinationURL, useWholeWordMatch, index, onCh
 		</Group>
 	);
 };
-
-export default RuleDetail;

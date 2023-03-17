@@ -17,11 +17,11 @@ import React, { useContext, useState } from 'react';
 import { MODAL, ModalsContext } from '../components/ModalsContext';
 import { NavigationContext, PanelIDs } from '../components/NavigationContext';
 
-import RuleCard from '../components/RuleCard';
+import { RuleCard } from '../components/RuleCard';
 import { actions, StoreContext } from '../components/StoreContext';
 import { IRule } from '../interfaces';
 
-type IMainPanelProps = {};
+export type IMainPanelProps = {};
 
 const MainPanel = ({}: IMainPanelProps) => {
     const { setActivePanel } = useContext(NavigationContext);
@@ -38,7 +38,7 @@ const MainPanel = ({}: IMainPanelProps) => {
                         before={<Icon24AddOutline />}
                         size="l"
                         textLevel="3"
-                        onClick={() => setActivePanel(PanelIDs.STATIC_MAPPER)}
+                        onClick={() => setActivePanel(PanelIDs.RULE)}
                     >
                         Новое правило
                     </SubnavigationButton>

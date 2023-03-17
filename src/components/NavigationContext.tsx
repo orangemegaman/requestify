@@ -1,51 +1,68 @@
 import React, { useCallback, useState } from 'react';
+import { IMainPanelProps } from '../panels/MainPanel';
+import { IRulePanelProps } from '../panels/RulePanel';
 
 export enum PanelIDs {
-	MAIN = 'main',
-	STATIC_MAPPER = 'static_mapper',
+    MAIN = 'main',
+    RULE = 'RULE',
 }
 
 type NavigationContextType = {
-	activePanel: PanelIDs;
-	panelHistory: PanelIDs[];
-	setActivePanel: (panel: PanelIDs) => void;
-	goBack: () => void;
+    activePanel: ActivePanel;
+    panelHistory: ActivePanel[];
+    setActivePanel: (
+        panel: PanelIDs,
+        panelProps?: ActivePanel['panelProps']
+    ) => void;
+    goBack: () => void;
 };
 
 export const NavigationContext = React.createContext<NavigationContextType>({
-	activePanel: PanelIDs.MAIN,
-	panelHistory: [],
-	setActivePanel: () => undefined,
-	goBack: () => undefined,
+    activePanel: { panelId: PanelIDs.MAIN },
+    panelHistory: [],
+    setActivePanel: () => undefined,
+    goBack: () => undefined,
 });
 
-export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-	const [history, setHistory] = useState([PanelIDs.MAIN]);
-	const [activePanel, setActivePanel] = useState<PanelIDs>(PanelIDs.MAIN);
+export type ActivePanel = {
+    panelId: PanelIDs;
+    panelProps?: IRulePanelProps | IMainPanelProps;
+};
 
-	const setActivePanelHandler = useCallback((panel: PanelIDs) => {
-		setActivePanel(panel);
-		setHistory((prev) => [...prev, panel]);
-	}, []);
+export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({
+    children,
+}) => {
+    const [history, setHistory] = useState([{ panelId: PanelIDs.MAIN }]);
+    const [activePanel, setActivePanel] = useState<ActivePanel>({
+        panelId: PanelIDs.MAIN,
+    });
 
-	const goBackHandler = useCallback(() => {
-		const prevPanel = history.at(-2);
-		if (prevPanel) {
-			setActivePanel(prevPanel);
-			setHistory((prev) => prev.slice(0, prev.length - 1));
-		}
-	}, [history]);
+    const setActivePanelHandler = useCallback(
+        (panelId: PanelIDs, panelProps?: ActivePanel['panelProps']) => {
+            setActivePanel({ panelId, panelProps });
+            setHistory((prev) => [...prev, {panelId, panelProps}]);
+        },
+        []
+    );
 
-	return (
-		<NavigationContext.Provider
-			value={{
-				activePanel,
-				panelHistory: [],
-				setActivePanel: setActivePanelHandler,
-				goBack: goBackHandler,
-			}}
-		>
-			{children}
-		</NavigationContext.Provider>
-	);
+    const goBackHandler = useCallback(() => {
+        const prevPanel = history.at(-2);
+        if (prevPanel) {
+            setActivePanel(prevPanel);
+            setHistory((prev) => prev.slice(0, prev.length - 1));
+        }
+    }, [history]);
+
+    return (
+        <NavigationContext.Provider
+            value={{
+                activePanel: activePanel,
+                panelHistory: [],
+                setActivePanel: setActivePanelHandler,
+                goBack: goBackHandler,
+            }}
+        >
+            {children}
+        </NavigationContext.Provider>
+    );
 };
