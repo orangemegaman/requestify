@@ -28,9 +28,10 @@ import './RuleDEtail.css';
 interface IRuleDetailProps extends Omit<IDetail, 'id'> {
 	onChange: (value: string, name: URLType, index: number) => void;
 	index: number;
+	onDelete: (index: number) => void;
 }
 
-export const RuleDetail = ({ requestURL, destinationURL, useWholeWordMatch, index, onChange }: IRuleDetailProps) => {
+export const RuleDetail = ({ requestURL, destinationURL, useWholeWordMatch, index, onChange, onDelete }: IRuleDetailProps) => {
 	return (
 		<Group>
 			<div className="rule__form">
@@ -49,7 +50,7 @@ export const RuleDetail = ({ requestURL, destinationURL, useWholeWordMatch, inde
 				<Div className="rule__preferences">
 					<List>
 						<Cell after={<Switch />}>Use RegExp</Cell>
-						<CellButton before={<Icon24DeleteOutlineAndroid />}>Delete</CellButton>
+						<CellButton onClick={()=> onDelete(index)} before={<Icon24DeleteOutlineAndroid />}>Delete</CellButton>
 					</List>
 				</Div>
 			</div>

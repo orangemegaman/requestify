@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { MODAL, ModalsContext } from './ModalsContext';
 import { ExportModal } from './Modals/ExportModal';
 import { ImportModal } from './Modals/ImportModal';
+import React from 'react';
 
 export const Modal = () => {
     const { activeModal, closeActiveModal } = useContext(ModalsContext);

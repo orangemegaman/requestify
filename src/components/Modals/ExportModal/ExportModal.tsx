@@ -6,10 +6,16 @@ import {
     ModalPage,
     ModalPageProps,
 } from '@vkontakte/vkui';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { StoreContext } from '../../StoreContext';
+import { download } from '../../../util/helpers';
+import { ModalsContext } from '../../ModalsContext';
+import React from 'react';
 
 export const ExportModal = (props: ModalPageProps) => {
     const [templateName, setTemplateName] = useState<string>('');
+    const { store } = useContext(StoreContext);
+    const { closeActiveModal } = useContext(ModalsContext);
 
     return (
         <ModalPage {...props}>
@@ -26,7 +32,10 @@ export const ExportModal = (props: ModalPageProps) => {
                         size="l"
                         stretched
                         mode="primary"
-                        onClick={() => {}}
+                        onClick={() => {
+                            download(templateName, store);
+                            closeActiveModal();
+                        }}
                         disabled={!templateName}
                     >
                         Сохранить

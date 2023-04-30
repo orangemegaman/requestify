@@ -32,7 +32,7 @@ export const RuleCard = (rule: IRule) => {
                 <div className="card__header">
                     <div className="card__status">
                         <Headline weight="2" className="card__headline">
-                            Headline medium
+                            {rule.title || 'unnamed'}
                         </Headline>
                         <Switch
                             checked={isActive}
@@ -45,7 +45,7 @@ export const RuleCard = (rule: IRule) => {
                 </div>
                 <SimpleCell
                     className="card__action"
-                    onClick={() => setActivePanel(PanelIDs.RULE, {rule})}
+                    onClick={() => setActivePanel(PanelIDs.RULE, { rule })}
                     expandable
                     before={<Icon28EditOutline />}
                 >

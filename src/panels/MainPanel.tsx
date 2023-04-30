@@ -13,13 +13,14 @@ import {
     Title,
 } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { MODAL, ModalsContext } from '../components/ModalsContext';
 import { NavigationContext, PanelIDs } from '../components/NavigationContext';
 
 import { RuleCard } from '../components/RuleCard';
 import { actions, StoreContext } from '../components/StoreContext';
 import { IRule } from '../interfaces';
+import { setData, upload } from '../util/helpers';
 
 export type IMainPanelProps = {};
 
@@ -28,6 +29,11 @@ const MainPanel = ({}: IMainPanelProps) => {
     const { store, dispatch } = useContext(StoreContext);
     const { setActiveModal } = useContext(ModalsContext);
     const { rules } = store;
+
+    const handleRemoveAll = () => {
+        dispatch(actions.clearAll());
+        setData(store);
+    };
 
     return (
         <>
@@ -69,46 +75,10 @@ const MainPanel = ({}: IMainPanelProps) => {
                         }
                         size="l"
                         textLevel="3"
-                        onClick={() => {
-                            dispatch(actions.clearAll());
-                        }}
+                        onClick={handleRemoveAll}
                         style={{ color: 'var(--destructive)' }}
                     >
                         Удалить все правила
-                    </SubnavigationButton>
-                    <SubnavigationButton
-                        before={
-                            <Icon24DeleteOutlineAndroid fill="var(--destructive)" />
-                        }
-                        size="l"
-                        textLevel="3"
-                        onClick={() => {
-                            dispatch(
-                                actions.addRule({
-                                    id: '1',
-                                    timestamp: 324234,
-                                    title: 'string',
-                                    isActive: false,
-                                    details: [
-                                        {
-                                            id: 'string',
-                                            requestURL: 'string',
-                                            destinationURL: 'string',
-                                            useWholeWordMatch: true,
-                                        },
-                                        {
-                                            id: 'string1',
-                                            requestURL: 'string',
-                                            destinationURL: 'string',
-                                            useWholeWordMatch: true,
-                                        },
-                                    ],
-                                })
-                            );
-                        }}
-                        style={{ color: 'var(--destructive)' }}
-                    >
-                        dump
                     </SubnavigationButton>
                 </SubnavigationBar>
             </Group>

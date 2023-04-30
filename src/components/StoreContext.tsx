@@ -3,7 +3,7 @@ import { IData, IDetail, IRule } from '../interfaces';
 
 const initContext = {
     isActive: false,
-    rules: [],
+    rules: [] as IRule[],
 };
 
 type PropTypes<T> = T extends { [key: string]: infer U } ? U : never;
@@ -15,17 +15,20 @@ type StoreContextType = {
 };
 
 export const actions = {
-    addRule: (rule: IRule) => ({ type: 'RULE', payload: { rule } } as const),
+    addRule: (rule: IRule) =>
+        ({ type: 'ADD_RULE', payload: { rule } } as const),
     updateRule: (rule: IRule) =>
         ({ type: 'UPDATE_RULE', payload: { rule } } as const),
     removeRule: (id: string) =>
         ({ type: 'REMOVE_RULE', payload: { id } } as const),
     clearAll: () => ({ type: 'CLEAR_ALL_RULES' } as const),
+    loadState: (state: IData | null) =>
+        ({ type: 'LOAD_STATE_FORM_STORAGE', payload: state } as const),
 };
 
 export const reducer = (state: IData, action: Action) => {
     switch (action.type) {
-        case 'RULE':
+        case 'ADD_RULE':
             return { ...state, rules: [...state.rules, action.payload.rule] };
         case 'UPDATE_RULE':
             const newRules = [...state.rules];
@@ -46,7 +49,10 @@ export const reducer = (state: IData, action: Action) => {
                 ),
             };
         case 'CLEAR_ALL_RULES':
+            console.log('reducer', 2);
             return { ...state, rules: [] };
+        case 'LOAD_STATE_FORM_STORAGE':
+            return { ...state, ...action.payload };
         default:
             return state;
     }
@@ -62,7 +68,6 @@ export const StoreContextProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
     const [store, dispatch] = useReducer(reducer, initContext);
 
-    console.log(store);
     return (
         <StoreContext.Provider value={{ store, dispatch }}>
             {children}

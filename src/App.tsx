@@ -7,27 +7,31 @@ import {
 } from '@vkontakte/vkui';
 import { useContext, useEffect, useState } from 'react';
 import { getData } from './util/helpers';
-import { IRule } from './interfaces';
 import RulePanel from './panels/RulePanel';
 import MainPanel from './panels/MainPanel';
-import './app.css';
 import '@vkontakte/vkui/dist/vkui.css';
 import { NavigationContext, PanelIDs } from './components/NavigationContext';
 import { Modal } from './components/Modal';
+import { actions, StoreContext } from './components/StoreContext';
+import { setData } from './util/helpers';
+import './app.css';
+import React from 'react';
 
 export const App = () => {
     const { activePanel, setActivePanel } = useContext(NavigationContext);
     const [panel, setPanel] = useState('main');
     const [popout, setPopout] = useState(null);
-    const [rules, setRules] = useState<IRule[]>([]);
+    const { store, dispatch } = useContext(StoreContext);
     const isDesktop = true;
 
     useEffect(() => {
         const data = getData();
-        if (data?.rules) {
-            setRules(data.rules);
-        }
+        dispatch(actions.loadState(data));
     }, []);
+
+    useEffect(() => {
+        setData(store);
+    }, [store]);
 
     return (
         <SplitLayout
@@ -42,7 +46,7 @@ export const App = () => {
                         <MainPanel />
                     </Panel>
                     <Panel id={PanelIDs.RULE}>
-                        <RulePanel {...activePanel.panelProps}/>
+                        <RulePanel {...activePanel.panelProps} />
                     </Panel>
                 </View>
             </SplitCol>

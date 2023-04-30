@@ -46,7 +46,7 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({
     );
 
     const goBackHandler = useCallback(() => {
-        const prevPanel = history.at(-2);
+        const prevPanel = history[history.length -2];
         if (prevPanel) {
             setActivePanel(prevPanel);
             setHistory((prev) => prev.slice(0, prev.length - 1));
